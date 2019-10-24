@@ -3,4 +3,8 @@
 
     <string name="search">Search</string>
     <string name="hint">Enter a search term</string>
+
+    <string name="title_activity_photo_viewer">PhotoViewerActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

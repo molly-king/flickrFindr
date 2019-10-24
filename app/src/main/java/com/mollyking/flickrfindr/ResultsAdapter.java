@@ -14,6 +14,13 @@ import java.util.List;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsHolder> {
 
+    public ResultsAdapter(MainViewModel viewModel) {
+        super();
+        this.viewModel = viewModel;
+    }
+
+    private MainViewModel viewModel;
+
     private List<FlickrPhoto> photos = new ArrayList<>();
 
 
@@ -49,9 +56,15 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultsH
             titleView = itemView.findViewById(R.id.title_result);
         }
 
-        public void bindData(FlickrPhoto  photo) {
+        public void bindData(final FlickrPhoto photo) {
             imageView.setImageURI(Uri.parse(photo.getThumbnailUrl()));
             titleView.setText(photo.getTitle());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewModel.selectItem(photo);
+                }
+            });
         }
     }
 }

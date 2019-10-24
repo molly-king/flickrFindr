@@ -1,7 +1,6 @@
 package com.mollyking.flickrfindr
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
@@ -15,8 +14,15 @@ class MainViewModel @Inject constructor(val service: FlickrService): ViewModel()
         const val TAG= "Main View Model"
     }
 
-    val isLoading = MutableLiveData(false)
-    val photos = MutableLiveData<List<FlickrPhoto>>()
+    val isLoading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData(false)
+    }
+    val photos: MutableLiveData<List<FlickrPhoto>> by lazy {
+        MutableLiveData<List<FlickrPhoto>>(listOf())
+    }
+    val selection: MutableLiveData<FlickrPhoto> by lazy {
+        MutableLiveData<FlickrPhoto>()
+    }
 
     private var query: String? = null
 
@@ -46,5 +52,9 @@ class MainViewModel @Inject constructor(val service: FlickrService): ViewModel()
                 }
             }
         })
+    }
+
+    fun selectItem(photo: FlickrPhoto) {
+        selection.postValue(photo)
     }
 }
