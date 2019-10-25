@@ -10,7 +10,8 @@ data class FlickrPhoto(val id: String,
         return "https://farm$farm.staticflickr.com/$server/${id}_${secret}_s.jpg"
     }
 
-    fun getMediumUrl(): String {
-        return "https://farm$farm.staticflickr.com/$server/${id}_${secret}_c.jpg"
+    fun getLargeUrl(): String {
+        return "https://farm$farm.staticflickr.com/$server/${id}_${secret}_b.jpg"
+//        return "https://www.flickr.com/photos/$owner/$id"
     }
 }

@@ -7,13 +7,23 @@
         android:layout_height="match_parent"
         tools:context=".PhotoViewerActivity">
 
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/viewer_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
     <com.facebook.drawee.view.SimpleDraweeView android:layout_width="match_parent"
                                                android:layout_height="match_parent"
                                                android:id="@+id/photo"
-                                               app:layout_constraintTop_toTopOf="parent"
+                                               app:layout_constraintTop_toBottomOf="@id/viewer_toolbar"
                                                app:layout_constraintStart_toStartOf="parent"
                                                app:placeholderImage="@drawable/ic_photo"
-                                               app:actualImageScaleType="centerInside"
+                                               app:actualImageScaleType="fitCenter"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

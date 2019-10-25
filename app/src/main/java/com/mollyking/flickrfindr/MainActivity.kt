@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: MainViewModel
 
+    lateinit var adapter: ResultsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -36,16 +36,22 @@ class MainActivity : AppCompatActivity() {
             viewModel.setQuery(search_box.text.toString())
         }
         results_recycler.layoutManager = LinearLayoutManager(this)
-        val adapter = ResultsAdapter(viewModel)
+        adapter = ResultsAdapter(viewModel)
         results_recycler.adapter = adapter
 
+        setSupportActionBar(main_toolbar)
+
+        setObservers()
+    }
+
+    fun setObservers() {
         val photosObserver = Observer<List<FlickrPhoto>> {photos ->
             adapter.setPhotos(photos)
         }
         viewModel.photos.observe(this, photosObserver)
 
         val selectionObserver = Observer<FlickrPhoto> { selected ->
-            val url = selected.getMediumUrl()
+            val url = selected.getLargeUrl()
             val intent = Intent(applicationContext, PhotoViewerActivity::class.java)
             intent.putExtra(PhotoViewerActivity.PHOTO_EXTRA, url)
             startActivity(intent)
