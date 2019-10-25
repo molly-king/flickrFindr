@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mollyking.flickrfindr.databinding.ActivityMainBinding
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         viewModel.selection.observe(this, selectionObserver)
+
+        val errorMessageObserver = Observer<String> { message ->
+            Snackbar.make(results_recycler, message, Snackbar.LENGTH_SHORT).show()
+        }
+        viewModel.errorMessage.observe(this, errorMessageObserver)
+
     }
 
     fun dismissKeyboard(view: View) {

@@ -1,6 +1,5 @@
 package com.mollyking.flickrfindr
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
@@ -23,6 +22,9 @@ class MainViewModel @Inject constructor(val service: FlickrService): ViewModel()
     val selection: MutableLiveData<FlickrPhoto> by lazy {
         MutableLiveData<FlickrPhoto>()
     }
+    val errorMessage: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     private var query: String? = null
 
@@ -33,8 +35,7 @@ class MainViewModel @Inject constructor(val service: FlickrService): ViewModel()
         service.searchPhotos(query!!).enqueue(object : Callback<SearchResponse> {
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 isLoading.value = false
-                Log.e(TAG, t.localizedMessage)
-                //todo: err msg
+                errorMessage.postValue(t.localizedMessage)
             }
 
             override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
@@ -44,11 +45,11 @@ class MainViewModel @Inject constructor(val service: FlickrService): ViewModel()
                     if (searchResponse.stat == "ok") {
                         photos.value = searchResponse.photos.photo
                     } else if (searchResponse.stat == "fail") {
-                        val errorMessage = searchResponse.message
-                        //todo: post error message
+                        val errMessage = searchResponse.message
+                        errorMessage.postValue(errMessage)
                     }
                 } else {
-                    //todo: err msg
+                    errorMessage.postValue("Request Unsuccessful. Response code ${response.code()}")
                 }
             }
         })
