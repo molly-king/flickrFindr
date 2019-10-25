@@ -9,6 +9,7 @@ Enter your search term in the EditText on the first screen and tap search. 25 re
 - Fresco - Simple image loading
 - Retrofit/OkHttp - Networking
 - Dagger2/Dagger Android - Dependency injection
+- Mockito Kotlin - Mocking for unit tests
 
 ## Architecture
 
